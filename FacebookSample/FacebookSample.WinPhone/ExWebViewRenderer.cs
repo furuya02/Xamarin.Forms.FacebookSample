@@ -1,11 +1,8 @@
-﻿using System;
-using FacebookSample;
+﻿using FacebookSample;
 using FacebookSample.WinPhone;
 using Microsoft.Phone.Controls;
-using System.Net;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.WinPhone;
-
 
 [assembly: ExportRenderer(typeof(ExWebView), typeof(ExWebViewRenderer))]
 namespace FacebookSample.WinPhone {

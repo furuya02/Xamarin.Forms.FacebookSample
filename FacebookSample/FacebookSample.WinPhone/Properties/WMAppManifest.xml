@@ -2,7 +2,7 @@
 
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US"/>
-  <App xmlns="" ProductID="{2524a69e-1578-4d5b-a484-9115a6c45f03}" Title="FacebookSample.WinPhone" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal"  Author="FacebookSample.WinPhone author" Description="Sample description" Publisher="FacebookSample.WinPhone" PublisherID="{12fd3d15-bf6c-4e75-af20-9fc574143423}">
+  <App xmlns="" ProductID="{3a977100-46d8-4093-92c9-80d41a87de2c}" Title="FacebookSample.WinPhone" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal"  Author="FacebookSample.WinPhone author" Description="Sample description" Publisher="FacebookSample.WinPhone" PublisherID="{a2bb8f01-bfff-4fec-8e9e-f01a5b0188a8}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING"/>

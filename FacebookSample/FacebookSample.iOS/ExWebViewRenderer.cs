@@ -1,11 +1,8 @@
-using System.ComponentModel;
 using FacebookSample;
 using FacebookSample.iOS;
-using MonoTouch.Foundation;
-using Xamarin.Forms.Platform.iOS;
+using Foundation;
 using Xamarin.Forms;
-using MonoTouch.UIKit;
-
+using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportRenderer(typeof(ExWebView), typeof(ExWebViewRenderer))]
 namespace FacebookSample.iOS {
