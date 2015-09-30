@@ -24,10 +24,14 @@ namespace FacebookSample
     public class MyPage : ContentPage{
 
         //Facebook アプリID
-        private const string AppId = "YOUR_FACEBOOK_APP_ID_HERE";
+//        private const string AppId = "YOUR_FACEBOOK_APP_ID_HERE";
+        private const string AppId = "388450734589960";
+
 
         //要求するアクセス許可                                                
-        private const string ExtendedPermissions = "user_about_me,read_stream,publish_stream";
+//        private const string ExtendedPermissions = "user_about_me,read_stream,publish_stream";
+        private const string ExtendedPermissions = "user_friends,user_posts";
+
 
         private bool _isLoggedIn = false;
         private FacebookClient _fb = null;
