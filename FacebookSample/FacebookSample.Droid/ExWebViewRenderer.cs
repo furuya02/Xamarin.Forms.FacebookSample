@@ -16,28 +16,13 @@ namespace FacebookSample.Droid {
             var exWebView = e.NewElement as ExWebView;
             //ネイティブコントロール(Android.Webkit.WebView)
             //var webView = ResourceBundle.Control;
-            var webView = this.Control; //Ver1.4.x
 
-            //WebViewではNavigateのイベントを拾えないためWebViewClientを上書きする
-            webView.SetWebViewClient(new MyWebViewClient(exWebView));
-
-
-            //クッキー（ログイン情報）の削除
-            CookieManager.Instance.RemoveAllCookie();
+            if (exWebView.DeleteCookie) {
+                //クッキー（ログイン情報）の削除
+                CookieManager.Instance.RemoveAllCookie();
+            }
         }
 
-    }
-
-    public class MyWebViewClient : WebViewClient {
-        private readonly ExWebView _exWebView;
-
-        public MyWebViewClient(ExWebView exWebView) {
-            _exWebView = exWebView;
-        }
-        public override bool ShouldOverrideUrlLoading(Android.Webkit.WebView view, string url) {
-            //イベントをForms側に送る
-            _exWebView.OnNavigate(url);
-            return false;
-        }
     }
 }
+

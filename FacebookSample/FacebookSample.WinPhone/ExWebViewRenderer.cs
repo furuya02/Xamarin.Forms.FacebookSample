@@ -15,16 +15,12 @@ namespace FacebookSample.WinPhone {
             //ネイティブコントロール(Microsoft.Phone.Controls.WebBrowser)
             var webBrowser = Control;
 
-
             webBrowser.IsScriptEnabled = true; //デフォルトでOFFになっているJavaScriptをONにしないと認証できない
 
-            webBrowser.Navigating += (s, a) => {
-                //イベントをForms側に送る
-                exWebView.OnNavigate(a.Uri.AbsoluteUri);
-            };
-
-            //クッキー（ログイン情報）の削除
-            webBrowser.ClearCookiesAsync();
+            if (exWebView.DeleteCookie) {
+                //クッキー（ログイン情報）の削除
+                webBrowser.ClearCookiesAsync();
+            }
         }
 
     }

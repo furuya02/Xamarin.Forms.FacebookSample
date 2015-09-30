@@ -1,19 +1,13 @@
 ﻿using Xamarin.Forms;
 
-namespace FacebookSample
-{
-    public class ExWebView : WebView
-    {
-        public event NavigateHandler Navigate;
+namespace FacebookSample {
+    public class ExWebView : WebView {
 
-        public delegate void NavigateHandler(string request);
-
-        public void OnNavigate(string request)
-        {
-            if (Navigate != null)
-            {
-                Navigate(request);
-            }
+        public bool DeleteCookie { get; set; }
+        public ExWebView(bool deleCookie) {
+            DeleteCookie = deleCookie;
         }
+
     }
 }
+

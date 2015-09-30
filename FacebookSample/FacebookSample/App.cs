@@ -5,31 +5,28 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
 
-namespace FacebookSample
-{
-    public class App : Application
-    {
-        public App()
-        {
+namespace FacebookSample {
+    public class App : Application {
+        public App() {
             //メインページをパラメータとしてNavigationPageを生成する
             MainPage = new NavigationPage(new MyPage());
         }
 
-        protected override void OnStart() {}
-        protected override void OnSleep() {}
-        protected override void OnResume() {}
-        
+        protected override void OnStart() { }
+        protected override void OnSleep() { }
+        protected override void OnResume() { }
+
     }
     //メインのページ
-    public class MyPage : ContentPage{
+    public class MyPage : ContentPage {
 
         //Facebook アプリID
-//        private const string AppId = "YOUR_FACEBOOK_APP_ID_HERE";
+        //        private const string AppId = "YOUR_FACEBOOK_APP_ID_HERE";
         private const string AppId = "388450734589960";
 
 
         //要求するアクセス許可                                                
-//        private const string ExtendedPermissions = "user_about_me,read_stream,publish_stream";
+        //        private const string ExtendedPermissions = "user_about_me,read_stream,publish_stream";
         private const string ExtendedPermissions = "user_friends,user_posts";
 
 
@@ -41,15 +38,12 @@ namespace FacebookSample
 
         private String _lastMessageId = null;
 
-        public MyPage()
-        {
+        public MyPage() {
 
 
-            if (AppId == "YOUR_FACEBOOK_APP_ID_HERE")
-            {
+            if (AppId == "YOUR_FACEBOOK_APP_ID_HERE") {
 
-                Content = new Label()
-                {
+                Content = new Label() {
                     Text = "https://developers.facebook.com/ \nで、Facebookアプリを作成し、取得したIDを、このクラスのAppIdにセットして下さい。"
                 };
                 return;
@@ -60,13 +54,11 @@ namespace FacebookSample
 
 
 
-            _img = new Image()
-            {
+            _img = new Image() {
                 WidthRequest = 100,
                 HeightRequest = 100
             };
-            _label = new Label()
-            {
+            _label = new Label() {
                 XAlign = TextAlignment.Center
             };
 
@@ -75,8 +67,7 @@ namespace FacebookSample
             SetStatus(false, "", "", "");//ログアウトに初期化する
 
             //リストビュー(メニュー)の生成
-            var listView = new ListView
-            {
+            var listView = new ListView {
                 ItemsSource = new List<string>{
                         "Login",
                         "Graph API Sample",
@@ -87,17 +78,14 @@ namespace FacebookSample
             };
 
             //リストビュー(メニュー)選択時の処理
-            listView.ItemSelected += async (s, a) =>
-            {
-                if (a.SelectedItem != null)
-                {
+            listView.ItemSelected += async (s, a) => {
+                if (a.SelectedItem != null) {
                     var menu = (string)a.SelectedItem;
-                    switch (menu[0])
-                    {
+                    switch (menu[0]) {
                         case 'L': //Login
                             SetStatus(false, "", "", "");//いったんログアウト状態に初期化する
                             //LoginPageへの遷移
-                            await Navigation.PushAsync(new LoginPage(this, AppId, ExtendedPermissions));
+                            await Navigation.PushAsync(new LoginPage(this, AppId, ExtendedPermissions, true));
                             break;
                         case 'G': //Graph API Sample
                             FuncGraph();
@@ -117,19 +105,16 @@ namespace FacebookSample
             };
 
             //メインページの画面構成
-            Content = new StackLayout
-            {
+            Content = new StackLayout {
                 Children = { _img, _label, listView }
             };
 
         }
 
 
-        public void SetStatus(bool isSuccess, string accessToken, string id, string error)
-        {
+        public void SetStatus(bool isSuccess, string accessToken, string id, string error) {
             _isLoggedIn = isSuccess;
-            if (_isLoggedIn)
-            {
+            if (_isLoggedIn) {
                 _fb = new FacebookClient(accessToken);
 
                 //アイコン及びステータスの初期化（ログイン）
@@ -140,11 +125,8 @@ namespace FacebookSample
                 _img.Source = string.Format("https://graph.facebook.com/{0}/picture?width=100&height=100", id);
 
 
-            }
-            else
-            {
-                if (!String.IsNullOrEmpty(error))
-                { //エラーメッセージがセットされている場合
+            } else {
+                if (!String.IsNullOrEmpty(error)) { //エラーメッセージがセットされている場合
                     DisplayAlert("ERROR", error, "OK");
                 }
                 _fb = null;
@@ -156,14 +138,11 @@ namespace FacebookSample
 
         }
 
-        private async void FuncGraph()
-        {
-            if (_isLoggedIn)
-            {
+        private async void FuncGraph() {
+            if (_isLoggedIn) {
                 var title = "ERROR";
                 var msg = "";
-                try
-                {
+                try {
                     var json = await _fb.GetTaskAsync("me");
                     var o = JObject.Parse(json);
                     msg = "Name: " + o["name"] + "\n" +
@@ -171,30 +150,23 @@ namespace FacebookSample
                         "Last Name: " + o["last_name"] + "\n" +
                         "Profile Url: " + o["link"];
                     title = "Your Info";
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     msg = ex.Message;
                 }
                 await DisplayAlert(title, msg, "OK");
-            }
-            else
-            {
+            } else {
                 await DisplayAlert("Not Logged In", "Please Log In First", "OK");
             }
         }
 
-        private async void FuncFql()
-        {
+        private async void FuncFql() {
 
 
 
-            if (_isLoggedIn)
-            {
+            if (_isLoggedIn) {
                 var title = "ERROR";
                 var msg = "";
-                try
-                {
+                try {
                     var query = string.Format(
                             "SELECT uid FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1={0})",
                             "me()");
@@ -202,92 +174,68 @@ namespace FacebookSample
                     var o = JObject.Parse(json);
                     title = "Info";
                     msg = string.Format("You have {0} friend(s)", o["data"].ToList().Count);
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     msg = ex.Message;
                 }
                 await DisplayAlert(title, msg, "OK");
-            }
-            else
-            {
+            } else {
                 DisplayAlert("Not Logged In", "Please Log In First", "OK");
             }
 
         }
 
-        private async void FuncPost()
-        {
-            if (_isLoggedIn)
-            {
+        private async void FuncPost() {
+            if (_isLoggedIn) {
 
-                if (!string.IsNullOrEmpty(_lastMessageId))
-                {
+                if (!string.IsNullOrEmpty(_lastMessageId)) {
                     DisplayAlert("Error", "Please Remove \"Hi\" to your wall", "Ok");
                     return;
                 }
 
                 var title = "ERROR";
                 var msg = "";
-                try
-                {
+                try {
                     var json = await _fb.PostTaskAsync("me/feed", new { message = "Hi" });
                     var o = JObject.Parse(json);
                     var id = (String)o["id"];
-                    if (!String.IsNullOrEmpty(id))
-                    {
+                    if (!String.IsNullOrEmpty(id)) {
                         title = "Success";
                         msg = string.Format("You have posted \"Hi\" to your wall. Id: {0}", id);
                         _lastMessageId = id;
-                    }
-                    else
-                    {
+                    } else {
                         msg = (string)o["error"]["message"];
                     }
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     _lastMessageId = null;
                     msg = ex.Message;
                 }
                 await DisplayAlert(title, msg, "OK");
-            }
-            else
-            {
+            } else {
                 DisplayAlert("Not Logged In", "Please Log In First", "OK");
             }
         }
 
-        private async void FuncRemove()
-        {
-            if (_isLoggedIn)
-            {
-                if (string.IsNullOrEmpty(_lastMessageId))
-                {
+        private async void FuncRemove() {
+            if (_isLoggedIn) {
+                if (string.IsNullOrEmpty(_lastMessageId)) {
                     DisplayAlert("Error", "Please Post \"Hi\" to your wall first", "Ok");
                     return;
                 }
 
                 var title = "ERROR";
                 var msg = "";
-                try
-                {
+                try {
                     var result = await _fb.DeleteTaskAsync(_lastMessageId);
-                    if (result == "true")
-                    {
+                    if (result == "true") {
                         title = "Success";
                         msg = "You have deleted \"Hi\" from you wall.";
                     }
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     msg = ex.Message;
                 }
                 await DisplayAlert(title, msg, "OK");
                 _lastMessageId = null;
-            }
-            else
-            {
+            } else {
                 DisplayAlert("Not Logged In", "Please Log In First", "OK");
             }
         }
