@@ -167,13 +167,17 @@ namespace FacebookSample {
                 var title = "ERROR";
                 var msg = "";
                 try {
-                    var query = string.Format(
-                            "SELECT uid FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1={0})",
-                            "me()");
+                    var query = "SELECT title FROM link WHERE owner = me() ORDER BY created_time DESC limit 1";
+
                     var json = await _fb.GetTaskAsync("fql?q=" + query);
                     var o = JObject.Parse(json);
                     title = "Info";
-                    msg = string.Format("You have {0} friend(s)", o["data"].ToList().Count);
+
+                    var sb = new StringBuilder();
+                    foreach(var d in o["data"]) {
+                        sb.Append((string) d["title"] + "\r\n");
+                    }
+                    msg = string.Format("You've LIKE, Recent Posts\n\r\n{0}",sb.ToString());
                 } catch (Exception ex) {
                     msg = ex.Message;
                 }
